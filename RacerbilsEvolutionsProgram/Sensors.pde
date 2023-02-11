@@ -26,7 +26,9 @@ class SensorSystem {
   float   clockWiseRotationFrameCounter  = 0;
 
   //lapTime calculation
-  boolean lastGreenDetection;
+  boolean correctLap = true;
+  boolean lastGreenDetection = false;
+  boolean lastBlueDetection = false;
   int     lastTimeInFrames      = 0;
   int     lapTimeInFrames       = 10000;
 
@@ -72,11 +74,30 @@ class SensorSystem {
     if (red(color_car_position)==0 && blue(color_car_position)==0 && green(color_car_position)!=0) {//den grønne målstreg er detekteret
       currentGreenDetection = true;
     }
-    if (lastGreenDetection && !currentGreenDetection) {  //sidst grønt - nu ikke -vi har passeret målstregen 
+    boolean currentBlueDetection = false;
+    if (red(color_car_position)==0 && blue(color_car_position)!=0 && green(color_car_position)==0) {//den grønne målstreg er detekteret
+      currentBlueDetection = true;
+    }
+    if (lastGreenDetection && !currentGreenDetection && whiteSensorFrameCount==0) {  //sidst grønt - nu ikke -vi har passeret målstregen 
       lapTimeInFrames = frameCount - lastTimeInFrames; //LAPTIME BEREGNES - frames nu - frames sidst
       lastTimeInFrames = frameCount;
-    }   
+      lastGreenDetection = currentGreenDetection; 
+      if (!correctLap) clockWiseRotationFrameCounter = clockWiseRotationFrameCounter + 75;   
+      else if (correctLap) clockWiseRotationFrameCounter = clockWiseRotationFrameCounter - 1;  
+      correctLap = true;
+      
+    if (lastBlueDetection && !currentBlueDetection && whiteSensorFrameCount==0) {  //sidst grønt - nu ikke -vi har passeret målstregen 
+      lapTimeInFrames = frameCount - lastTimeInFrames; //LAPTIME BEREGNES - frames nu - frames sidst
+      lastTimeInFrames = frameCount;
+      lastBlueDetection = currentBlueDetection;
+      if (correctLap) clockWiseRotationFrameCounter = clockWiseRotationFrameCounter + 75;   
+      else if (!correctLap) clockWiseRotationFrameCounter = clockWiseRotationFrameCounter - 1;
+      correctLap = false;
+    }
+ } 
+    
     lastGreenDetection = currentGreenDetection; //Husker om der var grønt sidst
+    lastBlueDetection = currentBlueDetection;
     //count clockWiseRotationFrameCounter
     centerToCarVector.set((height/2)-pos.x, (width/2)-pos.y);    
     float currentRotationAngle =  centerToCarVector.heading();
@@ -88,6 +109,7 @@ class SensorSystem {
     
     anchorPos.set(pos.x,pos.y);
   }
+  
 
   void updateSensorVectors(PVector vel) {
     if (vel.mag()!=0) {
