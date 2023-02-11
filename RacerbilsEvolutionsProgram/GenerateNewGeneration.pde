@@ -1,9 +1,9 @@
 public class GenerateNewGeneration {
   Random rand = new Random();
 
-  void generateNewGeneration(ArrayList<CarController> Racecar, int numOffspring, float mutationRate) {
+  void generateNewGeneration(ArrayList<CarController> racecar, int numOffspring, float mutationRate) {
     int numBestCars = 5;
-    ArrayList<CarController> bestCars = getBestCars(Racecar, numBestCars);
+    ArrayList<CarController> bestCars = getBestCars(racecar, numBestCars);
     
     ArrayList<CarController> newGeneration = new ArrayList<>();
     for (int i = 0; i < numBestCars; i++) {
@@ -18,16 +18,21 @@ public class GenerateNewGeneration {
       CarController offspring = breed(parent1, parent2, mutationRate);
       newGeneration.add(offspring);
     }
-    
-    Racecar.clear();
-    Racecar.addAll(newGeneration);
+     
+    racecar.clear();
+    racecar.addAll(newGeneration);
   }
 
-  ArrayList<CarController> getBestCars(ArrayList<CarController> Racecar, int numBestCars) {
-    Collections.sort(Racecar, (c1, c2) -> (int) (c2.getFitness() - c1.getFitness()));
+  ArrayList<CarController> getBestCars(ArrayList<CarController> reeeeeee, int numBestCars) {
+    Collections.sort(reeeeeee, new Comparator<CarController>() {
+  @Override
+  public int compare(CarController o1, CarController o2) {
+    return Float.compare(o2.fitnessCar, o1.fitnessCar);
+  }
+});
     ArrayList<CarController> bestCars = new ArrayList<>();
     for (int i = 0; i < numBestCars; i++) {
-      bestCars.add(Racecar.get(i));
+      bestCars.add(reeeeeee.get(i));
     }
     return bestCars;
   }
@@ -36,7 +41,7 @@ public class GenerateNewGeneration {
     NeuralNetwork offspringNet = new NeuralNetwork();
     for (int i = 0; i < parent1.net.weights.length; i++) {
       if (rand.nextFloat() < 0.5) {
-        offspringNet.weights[i] = parent1.net.weights[i];
+        offspringNet.weights[i] = parent1.x1;
       } else {
         offspringNet.weights[i] = parent2.net.weights[i];
       }
