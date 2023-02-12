@@ -4,8 +4,10 @@ class Fitness {
     float[] score  = new float[populationSize];  
 
   float fitnessUpdate(SensorSystem s, float r) {
-        if (s.whiteSensorFrameCount == 0) r = s.clockWiseRotationFrameCounter;
-        else r = 0;
+        if (s.whiteSensorFrameCount == 0)
+          r = s.clockWiseRotationFrameCounter;
+        else
+          r = 0;
         return r;
     }
     

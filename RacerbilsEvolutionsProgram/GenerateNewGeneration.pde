@@ -3,13 +3,10 @@ public class GenerateNewGeneration {
 
   void generateNewGeneration(ArrayList<CarController> racecar, int numOffspring, float mutationRate) {
     int numBestCars = 5;
+    
     ArrayList<CarController> bestCars = getBestCars(racecar, numBestCars);
     
     ArrayList<CarController> newGeneration = new ArrayList<>();
-    for (int i = 0; i < numBestCars; i++) {
-      newGeneration.add(bestCars.get(i));
-    }
-
     while (newGeneration.size() < numOffspring) {
       int parent1Index = rand.nextInt(numBestCars);
       int parent2Index = rand.nextInt(numBestCars);
@@ -25,11 +22,12 @@ public class GenerateNewGeneration {
 
   ArrayList<CarController> getBestCars(ArrayList<CarController> reeeeeee, int numBestCars) {
     Collections.sort(reeeeeee, new Comparator<CarController>() {
-  @Override
-  public int compare(CarController o1, CarController o2) {
-    return Float.compare(o2.fitnessCar, o1.fitnessCar);
-  }
-});
+      @Override
+      public int compare(CarController o1, CarController o2) {
+        return Float.compare(o2.fitnessCar, o1.fitnessCar);
+      }
+    });
+    
     ArrayList<CarController> bestCars = new ArrayList<>();
     for (int i = 0; i < numBestCars; i++) {
       bestCars.add(reeeeeee.get(i));
@@ -38,27 +36,22 @@ public class GenerateNewGeneration {
   }
 
   CarController breed(CarController parent1, CarController parent2, float mutationRate) {
-    NeuralNetwork offspringNet = new NeuralNetwork();
-    for (int i = 0; i < parent1.net.weights.length; i++) {
+    CarController offSpringCar = new CarController();
+    for (int i = 0; i < 8; i++) {
       if (rand.nextFloat() < 0.5) {
-        offspringNet.weights[i] = parent1.x1;
+        offSpringCar.hjerne.weights[i] = parent1.hjerne.weights[i] ;
       } else {
-        offspringNet.weights[i] = parent2.net.weights[i];
-      }
-      if (rand.nextFloat() < mutationRate) {
-        offspringNet.weights[i] += rand.nextGaussian();
+        offSpringCar.hjerne.weights[i] = parent2.hjerne.weights[i] ;
       }
     }
-    for (int i = 0; i < parent1.net.biases.length; i++) {
+
+    for (int i = 0; i < 3; i++) {
       if (rand.nextFloat() < 0.5) {
-        offspringNet.biases[i] = parent1.net.biases[i];
+        offSpringCar.hjerne.biases[i] = parent1.hjerne.biases[i] ;
       } else {
-        offspringNet.biases[i] = parent2.net.biases[i];
-      }
-      if (rand.nextFloat() < mutationRate) {
-        offspringNet.biases[i] += rand.nextGaussian();
+        offSpringCar.hjerne.biases[i] = parent2.hjerne.biases[i] ;
       }
     }
-    return new CarController(offspringNet);
+    return offSpringCar;
   }
 }
