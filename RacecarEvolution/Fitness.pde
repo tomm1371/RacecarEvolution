@@ -23,7 +23,8 @@ class Fitness {
       //set font
       textSize(16);
         fill(0, 408, 612);
-        text("Fitness scores:", 1020, 20);
+        text("Gen "+ carSystem.genCounter, 1020, 20);
+        text("Fitness scores:", 1020, 40);
       
       //Print scores
       for (int i = score.length - 1; i >= 0; i--) { 
@@ -33,11 +34,11 @@ class Fitness {
         if(i>49){
         textSize(16);
         fill(0, 408, 612);
-        text(int(score[i]), 1100, 40 + 18*i-900);
+        text(int(score[i]), 1100, 60 + 18*i-900);
         } else{
         textSize(16);
         fill(0, 408, 612);
-        text(int(score[i]), 1020, 40 + 18*i);
+        text(int(score[i]), 1020, 60 + 18*i);
         }
       }
     }

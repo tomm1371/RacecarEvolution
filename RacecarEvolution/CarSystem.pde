@@ -10,6 +10,8 @@ class CarSystem {
   int timeInterval = 600; // The time interval in seconds after which to call the generateNewGeneration method
   int numOffspring = 100;
   float mutationRate = 0.1;
+  int genCounter = 1;
+  
   
   CarSystem(int populationSize) {
     for (int i=0; i<populationSize; i++) { 
@@ -32,6 +34,7 @@ class CarSystem {
      if (timer >= timeInterval) {
       timer = 0;
       generateNewGeneration.generateNewGeneration(CarControllerList, numOffspring, mutationRate);
+      genCounter++;
     } 
   }
 }

@@ -27,7 +27,7 @@ void draw() {
   fill(255);
   rect(0,50,1000,1000);
   image(trackImage,0,0);  
-  delay(100);
+
   carSystem.updateAndDisplay();
   
   
